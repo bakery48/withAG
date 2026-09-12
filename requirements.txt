@@ -1,2 +1,4 @@
 fastapi>=0.110
 uvicorn[standard]>=0.29
+# Python 3.10 以下には tomllib が無いので後方移植版を使う
+tomli>=2.0.1; python_version < "3.11"

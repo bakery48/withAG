@@ -18,11 +18,12 @@ PC で動いている **Antigravity** を、同じ Wi-Fi にいるスマホか�
 
 | | |
 |---|---|
-| PC | Windows 10/11、Python 3.11 以上、Antigravity |
+| PC | Windows 10/11、Python 3.10 以上、Antigravity |
 | スマホ | PC と同じ Wi-Fi につながっていること。ブラウザだけでOK |
 
 > Python は [python.org](https://www.python.org/downloads/) のインストーラで入れる際、
 > 「Add python.exe to PATH」にチェックを入れてください。
+> Python 3.10 では TOML の読み込みに `tomli` が必要ですが、`run.bat` が自動で入れます。
 
 ## 2. セットアップ
 

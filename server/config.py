@@ -8,10 +8,18 @@ from pathlib import Path
 from typing import Any
 
 try:
-    import tomllib  # Python 3.11+
+    import tomllib  # Python 3.11+ の標準ライブラリ
 except ModuleNotFoundError:  # pragma: no cover
-    print("Python 3.11 以上が必要です。", file=sys.stderr)
-    raise
+    try:
+        import tomli as tomllib  # type: ignore[no-redef]  # 3.10 以下はこちらを使う
+    except ModuleNotFoundError:
+        print(
+            "TOML の読み込みに必要なライブラリがありません。\n"
+            "  .venv\\Scripts\\python.exe -m pip install -r requirements.txt\n"
+            "を実行してください（Python 3.11 以上なら標準で入っています）。",
+            file=sys.stderr,
+        )
+        raise
 
 ROOT = Path(__file__).resolve().parent.parent
 

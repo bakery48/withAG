@@ -9,6 +9,13 @@ if not exist ".venv\Scripts\python.exe" (
   echo [withAG] 仮想環境を作成します...
   py -3 -m venv .venv || python -m venv .venv || goto :err
   ".venv\Scripts\python.exe" -m pip install --upgrade pip
+)
+
+rem 依存パッケージが揃っているか毎回確認する（requirements.txt が増えた時も追従できる）
+".venv\Scripts\python.exe" tools\check_env.py
+if errorlevel 2 goto :err
+if errorlevel 1 (
+  echo [withAG] 依存パッケージをインストールします...
   ".venv\Scripts\python.exe" -m pip install -r requirements.txt || goto :err
 )
 
