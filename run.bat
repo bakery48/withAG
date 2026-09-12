@@ -1,5 +1,7 @@
 @echo off
 rem withAG 起動スクリプト (Windows)
+rem このファイルは UTF-8 で保存されているため、表示用にコードページを合わせる
+chcp 65001 >nul
 setlocal
 cd /d "%~dp0"
 
@@ -19,6 +21,8 @@ if not exist "config.toml" (
 )
 
 ".venv\Scripts\python.exe" run.py %*
+rem エラー終了した時に窓が一瞬で閉じないようにする
+if errorlevel 1 pause
 goto :eof
 
 :err

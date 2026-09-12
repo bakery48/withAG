@@ -26,7 +26,7 @@ PC で動いている **Antigravity** を、同じ Wi-Fi にいるスマホか�
 
 ## 2. セットアップ
 
-```bat
+```powershell
 git clone <このリポジトリ> withAG
 cd withAG
 copy config.example.toml config.toml
@@ -43,7 +43,16 @@ path = 'C:\Users\baker\AppData\Roaming\Antigravity\yun\Conversation.md'
 ```
 
 あとは `run.bat` をダブルクリックするだけです（初回は仮想環境の作成と
-`pip install` が自動で走ります）。起動するとコンソールに次のように出ます。
+`pip install` が自動で走ります）。
+
+PowerShell から起動する場合は、カレントディレクトリのものを実行するために
+`.\` が必要です。
+
+```powershell
+.\run.bat
+```
+
+起動するとコンソールに次のように出ます。
 
 ```
 ======================================================================
@@ -55,7 +64,7 @@ path = 'C:\Users\baker\AppData\Roaming\Antigravity\yun\Conversation.md'
 
 手動で動かす場合:
 
-```bat
+```powershell
 python -m venv .venv
 .venv\Scripts\pip install -r requirements.txt
 .venv\Scripts\python run.py
@@ -88,13 +97,13 @@ New-NetFirewallRule -DisplayName "withAG" -Direction Inbound -Protocol TCP -Loca
 
 まず単体で試せるツールがあります（スマホ不要）。
 
-```bat
+```powershell
 .venv\Scripts\python tools\try_send.py "テスト送信"
 ```
 
 ### ウィンドウが見つからない
 
-```bat
+```powershell
 .venv\Scripts\python tools\list_windows.py
 ```
 
@@ -188,9 +197,9 @@ topic = "withag-8f2c1d9a"
 - 通信は既定では平文 HTTP です。家庭内 LAN 想定ですが、気になる場合は自己署名証明書を
   作って `ssl_certfile` / `ssl_keyfile` を設定してください。
 
-  ```bat
-  openssl req -x509 -newkey rsa:2048 -nodes -days 3650 ^
-    -keyout certs\key.pem -out certs\cert.pem -subj "/CN=withag"
+  ```powershell
+  mkdir certs
+  openssl req -x509 -newkey rsa:2048 -nodes -days 3650 -keyout certs\key.pem -out certs\cert.pem -subj "/CN=withag"
   ```
 
   HTTPS にするとスマホのブラウザ通知 API も使えるようになります
@@ -211,7 +220,7 @@ topic = "withag-8f2c1d9a"
 
 ## 10. 開発
 
-```bat
+```powershell
 python -m unittest discover -s tests
 ```
 
