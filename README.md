@@ -71,13 +71,44 @@ python -m venv .venv
 .venv\Scripts\python run.py
 ```
 
-### Windows ファイアウォール
+### スマホから繋がらない時
+
+PC 側では起動しているのにスマホで「このサイトにアクセスできません」になる場合、
+原因はほぼこの 3 つです。
+
+**1. Windows ファイアウォールで塞がれている**
 
 初回起動時に「アクセスを許可しますか？」と聞かれたら、**プライベートネットワーク**に
 チェックを入れて許可してください。許可しそびれた場合は、管理者権限の PowerShell で:
 
 ```powershell
-New-NetFirewallRule -DisplayName "withAG" -Direction Inbound -Protocol TCP -LocalPort 8765 -Action Allow -Profile Private
+New-NetFirewallRule -DisplayName "withAG" -Direction Inbound -Protocol TCP -LocalPort 8765 -Action Allow -Profile Private,Domain
+```
+
+**2. ネットワークが「パブリック」判定になっている**
+
+パブリックだと受信がほぼ全て遮断されます。確認と変更（変更は管理者権限で）:
+
+```powershell
+Get-NetConnectionProfile
+Set-NetConnectionProfile -InterfaceAlias "Wi-Fi" -NetworkCategory Private
+```
+
+**3. PC とスマホが同じネットワークにいない**
+
+- スマホのモバイルデータ / VPN をオフにする
+- スマホの IP が PC と同じ帯（例: どちらも `192.168.1.x`）か確認する。
+  ゲスト用 SSID や 2.4GHz/5GHz で別ネットワークに分かれている事があります
+- ルーターの**プライバシーセパレータ（AP 隔離）**が ON だと、同じ Wi-Fi でも
+  端末同士は通信できません。OFF にしてください
+
+PC 自身のブラウザで `http://localhost:8765/` が開くかどうかで、
+サーバ側の問題かネットワーク側の問題かを切り分けられます。
+
+アダプタが複数あって、どの IP を使えばよいか分からない場合:
+
+```powershell
+.venv\Scripts\python tools\net_check.py
 ```
 
 ## 3. スマホからの使い方
