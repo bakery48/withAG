@@ -79,10 +79,22 @@ PC 側では起動しているのにスマホで「このサイトにアクセ�
 **1. Windows ファイアウォールで塞がれている**
 
 初回起動時に「アクセスを許可しますか？」と聞かれたら、**プライベートネットワーク**に
-チェックを入れて許可してください。許可しそびれた場合は、管理者権限の PowerShell で:
+チェックを入れて許可してください。許可しそびれた場合は、
+`tools\allow_firewall.bat` をダブルクリックしてください（UAC の確認が出ます）。
+既定以外のポートを使っている場合は `tools\allow_firewall.bat 9000` のように渡します。
+
+手で設定する場合は、**管理者権限の** PowerShell で:
 
 ```powershell
 New-NetFirewallRule -DisplayName "withAG" -Direction Inbound -Protocol TCP -LocalPort 8765 -Action Allow -Profile Private,Domain
+```
+
+`アクセスが拒否されました` と出る場合は管理者権限がありません。
+**Win + X** →「ターミナル (管理者)」から開き直すか、通常の PowerShell で次を実行すると
+UAC の確認を挟んで実行できます。
+
+```powershell
+Start-Process powershell -Verb RunAs -ArgumentList '-NoExit','-Command','New-NetFirewallRule -DisplayName "withAG" -Direction Inbound -Protocol TCP -LocalPort 8765 -Action Allow -Profile Private,Domain'
 ```
 
 **2. ネットワークが「パブリック」判定になっている**
@@ -265,4 +277,4 @@ python -m unittest discover -s tests
 | `server/parser.py` | 差分を発言単位へ切り分け |
 | `server/store.py` | 履歴の保存と WebSocket への配信 |
 | `web/` | スマホ側の画面 |
-| `tools/` | ウィンドウ一覧・送信テスト用の補助スクリプト |
+| `tools/` | ウィンドウ一覧・送信テスト・ネットワーク診断・ファイアウォール設定の補助スクリプト |
