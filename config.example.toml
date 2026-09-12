@@ -1,0 +1,64 @@
+# withAG 設定ファイル
+# このファイルを config.toml にコピーして編集してください。
+
+[server]
+# LAN 内のスマホからアクセスさせるので 0.0.0.0 で待ち受ける
+host = "0.0.0.0"
+port = 8765
+# スマホ以外の端末から触られないようにする合言葉。必ず変更すること。
+# スマホでは http://<PCのIP>:8765/?token=<この値> を一度開けば以降は保存される。
+token = "change-me-please"
+# HTTPS を使う場合のみ指定（ブラウザ通知APIを使いたい時などに有効）
+ssl_certfile = ""
+ssl_keyfile = ""
+
+[watch]
+# Antigravity が会話を書き出すファイル
+path = 'C:\Users\baker\AppData\Roaming\Antigravity\yun\Conversation.md'
+encoding = "utf-8"
+# ファイルを見に行く間隔(ms)
+poll_interval_ms = 400
+# 最後の更新からこの時間(ms)変化が無ければ「1 応答が完了した」と見なして通知する
+settle_ms = 1500
+# 起動時に既存の内容を履歴として読み込むか（false なら起動以降の差分のみ扱う）
+load_existing_on_start = false
+
+[antigravity]
+# ウィンドウタイトルに含まれる文字列（部分一致・大文字小文字は無視）
+window_title = "Antigravity"
+# チャット入力欄にフォーカスを移すショートカット。不要なら "" にする。
+# 例: "ctrl+shift+l" / "ctrl+l" / "ctrl+alt+i"
+focus_chat_hotkey = "ctrl+shift+l"
+# 入力方式: "paste" = クリップボード経由で貼り付け(推奨) / "type" = 1文字ずつ送出
+input_method = "paste"
+# 送信キー。"enter" / "ctrl+enter" / "shift+enter" など
+submit_key = "enter"
+# 各操作の待ち時間(ms)。うまく入らない時はここを増やす。
+focus_window_delay_ms = 300
+focus_chat_delay_ms = 250
+after_input_delay_ms = 150
+# 送信後にクリップボードの中身を元に戻す
+restore_clipboard = true
+# 送信後に元々アクティブだったウィンドウへ戻す
+restore_foreground = true
+# 改行を含むテキストを送る時、改行で送信されてしまうのを防ぐ
+# （paste 方式ならそのまま貼れるので通常 true のままでよい）
+allow_multiline = true
+
+[notify]
+# ntfy.sh などを使ったプッシュ通知（スマホのブラウザを閉じていても届く）
+# 使わない場合は enabled = false のままで良い
+enabled = false
+# 自前サーバを使う場合は変更
+server = "https://ntfy.sh"
+# 推測されにくい文字列にすること（これがそのまま購読キーになる）
+topic = ""
+title = "Antigravity"
+# 通知本文の最大文字数
+max_chars = 300
+
+[history]
+# 会話履歴を保存するファイル（サーバ再起動後もスマホ側に履歴が出る）
+file = "data/history.jsonl"
+# メモリ上に保持する最大件数
+max_items = 500
